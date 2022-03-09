@@ -66,16 +66,13 @@ export class StageComponent implements OnInit {
   }
 
   canExecuteStage(): boolean {
-    console.log('!this.isphotoStageCreated()');
-    console.log(!this.isphotoStageCreated());
-    console.log('this.isMaintenanceInExecution()');
-    console.log(this.isMaintenanceInExecution());
-    return !this.isphotoStageCreated() && this.isMaintenanceInExecution();
+    return !this.isphotoStageCreated() && !this.isMaintenanceInExecution();
   }
 
   isMaintenanceInExecution(): boolean {
     const stage = this.stages?.find(s => s);
-    return stage?.maintenance?.status ?? true;
+
+    return stage?.maintenance?.status ?? false;
   }
 
   isphotoStageCreated(): boolean {

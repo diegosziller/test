@@ -9,15 +9,20 @@
           <label class="username-label" for="username">Login</label>
           <input type="text" class="form-control" name="username" id="username" placeholder="Seu login"
             formControlName="username" #username data-cy="username" />
-        </div>
-        <div *ngIf="loginForm.get('username')!.invalid && (loginForm.get('username')!.dirty || loginForm.get('username')!.touched)">
-          <small class="form-text text-danger" *ngIf="loginForm.get('username')?.errors?.['required']"> Campo obrigatório. </small>
+          <div
+            *ngIf="loginForm.get('username')!.invalid && (loginForm.get('username')!.dirty || loginForm.get('username')!.touched)">
+            <small class="form-text text-danger" *ngIf="loginForm.get('username')?.errors?.['required']"> Campo login é obrigatório. </small>
+          </div>
         </div>
 
         <div class="mb-3">
           <label for="password">Senha</label>
           <input type="password" class="form-control" name="password" id="password" placeholder="Senha"
             formControlName="password" data-cy="password" />
+          <div
+            *ngIf="loginForm.get('password')!.invalid && (loginForm.get('password')!.dirty || loginForm.get('password')!.touched)">
+            <small class="form-text text-danger" *ngIf="loginForm.get('password')?.errors?.['required']"> Campo senha é obrigatório. </small>
+          </div>
         </div>
 
         <button type="submit" class="btn btn-primary" data-cy="submit">Entrar</button>
