@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+  <div class="container-fluid">
+    <span class="navbar-brand mb-0 h1">Teste Konatus</span>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto" routerLinkActive="active">
+        <li class="nav-item">
+          <a class="nav-link" *ngIf="account" routerLink="maintenance">Manutenções</a>
+        </li>
+      </ul>
+    </div>
+
+    <ul class="navbar-nav ml-auto" *ngIf="account">
+      <li class="nav-item">
+        <a href class="nav-link" (click)="logout()">Sair</a>
+      </li>
+    </ul>
+  </div>
+</nav>

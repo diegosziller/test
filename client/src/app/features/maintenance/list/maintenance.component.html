@@ -1,0 +1,66 @@
+<div>
+    <h2 id="page-heading" data-cy="MaintenanceHeading">
+      <span>Manutenções</span>
+  
+      <div class="d-flex justify-content-end">
+        <button
+          id="create-maintenance"
+          data-cy="entityCreateButton"
+          class="btn btn-primary create-maintenance"
+          [routerLink]="['/maintenance/new']"
+        >
+          <fa-icon icon="plus"></fa-icon>&nbsp;
+          <span>Criar nova manutenção</span>
+        </button>
+      </div>
+    </h2>
+  
+    <div class="alert alert-warning" id="no-result" *ngIf="maintenances?.length === 0">
+      <span>Nenhuma manutenção encontrada</span>
+    </div>
+  
+    <div class="table-responsive" id="entities" *ngIf="maintenances && maintenances.length > 0">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr appSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="loadPage()">
+            <th scope="col" appSortBy="description"><span>Descrição</span>&nbsp; <fa-icon icon="sort"></fa-icon></th>
+            <th scope="col" appSortBy="createdAt"><span>Data de cadastro</span>&nbsp; <fa-icon icon="sort"></fa-icon></th>
+            <th scope="col" appSortBy="status"><span>Status</span>&nbsp; <fa-icon icon="sort"></fa-icon></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let maintenance of maintenances; trackBy: trackId" data-cy="entityTable">
+            <td>{{ maintenance.description }}</td>
+            <td>{{ maintenance.createdAt | date:'shortDate' }}</td>
+            <td>
+              <span [className]="maintenance.status ? 'badge rounded-pill bg-danger' : 'badge rounded-pill bg-success'">
+                {{ maintenance.status ? 'Finalizada' : 'Em execução' }}
+              </span>
+            </td>
+            <td class="text-end">
+              <div class="btn-group">
+                <button
+                  type="submit"
+                  [routerLink]="['/stage', 'maintenance', maintenance.id]"
+                  class="btn btn-info btn-sm"
+                  data-cy="entityDetailsButton"
+                >
+                  <fa-icon icon="eye"></fa-icon>&nbsp;
+                  <span class="d-none d-md-inline">Visualizar etapas</span>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  
+    <div *ngIf="maintenances && maintenances.length > 0">
+      <div class="d-flex justify-content-center">
+        <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [boundaryLinks]="true" [maxSize]="5"
+          [pageSize]="itemsPerPage" (pageChange)="loadPage($event)"></ngb-pagination>
+      </div>
+    </div>
+  </div>
+  

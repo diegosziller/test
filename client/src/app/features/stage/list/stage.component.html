@@ -1,0 +1,64 @@
+<div>
+    <h2 id="page-heading" data-cy="StageHeading">
+      <span>Estágios</span>
+  
+      <div class="d-flex justify-content-end">
+        <button
+          *ngIf="!canFinalizeMaintenance()"
+          id="create-stage"
+          data-cy="entityCreateButton"
+          class="btn btn-primary create-stage"
+          [routerLink]="['/stage', 'maintenance', maintenanceId,'new']"
+        >
+          <fa-icon icon="plus"></fa-icon>&nbsp;
+          <span>Executar nova etapa</span>
+        </button>
+      </div>
+      <div class="d-flex justify-content-end">
+        <button
+          *ngIf="canFinalizeMaintenance()"
+          id="finalize-maintenance"
+          class="btn btn-success"
+          (click)="finalizeMaintenance()"
+        >
+          <fa-icon icon="plus"></fa-icon>&nbsp;
+          <span>Finalizar Manutenção</span>
+        </button>
+      </div>
+    </h2>
+  
+    <div class="alert alert-warning" id="no-result" *ngIf="stages?.length === 0">
+      <span>Nenhuma etapa encontrada</span>
+    </div>
+  
+    <div class="table-responsive" id="entities" *ngIf="stages && stages.length > 0">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr appSort (sortChange)="loadPage()">
+            <th scope="col" appSortBy="description"><span>Descrição</span>&nbsp; <fa-icon icon="sort"></fa-icon></th>
+            <th scope="col" appSortBy="status"><span>Status</span>&nbsp; <fa-icon icon="sort"></fa-icon></th>
+            <th scope="col" appSortBy="createdAt"><span>Data de execução</span>&nbsp; <fa-icon icon="sort"></fa-icon></th>
+            <th scope="col" appSortBy="createdAt"><span>Valor</span>&nbsp; <fa-icon icon="sort"></fa-icon></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let stage of stages; trackBy: trackId" data-cy="entityTable">
+            <td>{{ stage.description }}</td>
+            <td>
+              <span [className]="stage.status ? 'badge rounded-pill bg-danger' : 'badge rounded-pill bg-success'">
+                {{ stage.status ? 'Finalizada' : 'Em execução' }}
+              </span>
+            </td>
+            <td>{{ stage.createdAt | date:'shortDate' }}</td>
+            <td *ngIf="!isImage(stage); else elseBlock">{{ stage.value }}</td>
+            <ng-template #elseBlock>
+              <td #elseBlock>
+                <a style="text-decoration: underline; color: blue; cursor: pointer;" (click)="openFile(stage)">Abrir</a>&nbsp;
+              </td>
+            </ng-template>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

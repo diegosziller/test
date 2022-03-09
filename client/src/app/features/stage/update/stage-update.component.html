@@ -1,0 +1,54 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="app-stage-heading" data-cy="StageCreateUpdateHeading">Executar etapa</h2>
+
+      <div>
+
+        <div *ngIf="stageType === 1" class="row mb-3">
+          <label class="form-label" for="field_image">Etapa de imagem</label>
+          <div>
+            <div class="input-group">
+              <input type="file" id="file_image" class="form-control" data-cy="image" (change)="setFileData($event, 'value', true)" accept="image/*" />
+              <button *ngIf="editForm.get('value')!.value" class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04" 
+                (click)="clearInputImage('value', 'file_image')">
+                <fa-icon icon="times"></fa-icon>
+              </button>
+            </div>
+          </div>
+          <div>
+            <small class="form-text text-danger">{{errorMessage}} </small>
+          </div>
+          <input type="hidden" class="form-control" name="image" id="field_image" data-cy="image" formControlName="value" />
+        </div>
+
+        <div *ngIf="stageType === null" class="row mb-3">
+          <label class="form-label" for="field_texto">Etapa de texto</label>
+          <textarea class="form-control" name="texto" id="field_texto" data-cy="texto" formControlName="value"></textarea>
+        </div>
+
+        <div *ngIf="stageType === 0" class="row mb-3">
+          <label class="form-label" for="field_number">Etapa de número</label>
+          <input class="form-control" data-bind="value:replyNumber" type="number" name="number" id="field_number" data-cy="number" formControlName="value"/>
+        </div>
+
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Executar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="00000000000000" author="soaresdss">
+        <createSequence sequenceName="users_seq_id" incrementBy="1" dataType="bigint" startValue="2"/>
+        <createSequence sequenceName="maintenances_seq_id" incrementBy="1" dataType="bigint" startValue="1"/>
+        <createSequence sequenceName="stages_seq_id" incrementBy="1" dataType="bigint" startValue="1"/>
+    </changeSet>
+
+    <changeSet id="00000000000001" author="soaresdss">
+        <createTable tableName="users">
+            <column name="id" type="bigint" >
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="login" type="varchar(255)">
+                <constraints nullable="false" unique="true" uniqueConstraintName="ux_user__login" />
+            </column>
+            <column name="password_hash" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <createTable tableName="maintenances" >
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="status" type="boolean">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="user_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <createTable tableName="stages" >
+            <column name="id" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="description" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="status" type="boolean">
+                <constraints nullable="false" />
+            </column>
+            <column name="type" type="integer">
+                <constraints nullable="false" />
+            </column>
+            <column name="value" type="varchar(6400000)">
+                <constraints nullable="false" />
+            </column>
+            <column name="created_at" type="timestamp">
+                <constraints nullable="false" />
+            </column>
+            <column name="maintenance_id" type="bigint">
+                <constraints nullable="false" />
+            </column>
+        </createTable>
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="maintenances"
+                                 constraintName="fk_maintenance__user_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="users"/>
+
+        <addForeignKeyConstraint baseColumnNames="maintenance_id"
+                                 baseTableName="stages"
+                                 constraintName="fk_stage__maintenance_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="maintenances"/>
+
+    </changeSet>
+
+    <changeSet id="00000000000002" author="soaresdss">  
+        
+        <insert tableName="users">
+            <column name="id" value="1"/>
+            <column name="login" value="soaresdss"/>
+            <column name="password_hash" value="$2a$10$ejOlTwCoYuEC1LXEOmvRzuPf3dRDQrO4ThjkQkwNH0zOqBAiUs2T2"/>
+            <column name="created_at" value="${now()}"/>
+        </insert>  
+
+    </changeSet>
+
+
+</databaseChangeLog>
