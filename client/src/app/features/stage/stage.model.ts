@@ -1,3 +1,4 @@
+import { IMaintenance } from "../maintenance/maintenance.model";
 import { StageType } from "./enum/stage-type.model";
 
 export interface IStage {
@@ -8,6 +9,7 @@ export interface IStage {
   value?: string | null;
   createdAt?: Date;
   maintenanceId?: number;
+  maintenance?: IMaintenance
 }
 
 export class Stage implements IStage {
@@ -18,6 +20,7 @@ export class Stage implements IStage {
     public type?: StageType,
     public value?: string | null,
     public createdAt?: Date,
-    public maintenanceId?: number
+    public maintenanceId?: number,
+    public maintenance?: IMaintenance
   ) {}
 }

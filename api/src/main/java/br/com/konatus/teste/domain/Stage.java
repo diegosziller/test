@@ -52,6 +52,6 @@ public class Stage {
 
     @ManyToOne(optional = false)
     @NotNull
-    @JsonIgnoreProperties(value = { "usuario" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "user" }, allowSetters = true)
     private Maintenance maintenance;
 }

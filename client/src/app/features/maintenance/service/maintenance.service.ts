@@ -23,4 +23,8 @@ export class MaintenanceService {
   create(maintenance: IMaintenance): Observable<EntityResponseType> {
     return this.http.post<IMaintenance>(this.resourceUrl, maintenance, { observe: 'response' });
   }
+
+  finalize(id: number): Observable<EntityResponseType> {
+    return this.http.put(`${this.resourceUrl}${id}/finalize`, {}, { observe: 'response' });
+  }
 }

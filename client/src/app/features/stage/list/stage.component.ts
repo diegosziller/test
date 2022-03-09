@@ -3,8 +3,11 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest } from 'rxjs';
 import { DataUtils } from 'src/app/core/util/data-util.service';
+import { IMaintenance } from '../../maintenance/maintenance.model';
+import { MaintenanceService } from '../../maintenance/service/maintenance.service';
+import { StageType } from '../enum/stage-type.model';
 import { StageService } from '../service/stage.service';
-import { IStage } from '../stage.model';
+import { IStage, Stage } from '../stage.model';
 
 
 
@@ -18,10 +21,11 @@ export class StageComponent implements OnInit {
   maintenanceId!: number;
 
   constructor(
-    protected stageService: StageService,
-    protected dataUtils: DataUtils,
-    protected activatedRoute: ActivatedRoute,
-    protected router: Router
+    private stageService: StageService,
+    private maintenanceService: MaintenanceService,
+    private dataUtils: DataUtils,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -47,13 +51,40 @@ export class StageComponent implements OnInit {
     return stage.type === 'PHOTO'
   }
 
-  finalizeMaintenance(): void {}
+  finalizeMaintenance(): void {
+    this.maintenanceService.finalize(this.maintenanceId)
+      .subscribe({
+        next: () => {
+          this.isLoading = false;
+          this.router.navigate(['/maintenance']);
+        },
+      });
+  }
 
-  canFinalizeMaintenance(): boolean | undefined{
-    return this.stages?.some(stage => {
-      const type: any = stage.type;
-      return type === "PHOTO";
-    });
+  canFinalizeMaintenance(): boolean {
+    return this.isphotoStageCreated() && !this.isMaintenanceInExecution();
+  }
+
+  canExecuteStage(): boolean {
+    console.log('!this.isphotoStageCreated()');
+    console.log(!this.isphotoStageCreated());
+    console.log('this.isMaintenanceInExecution()');
+    console.log(this.isMaintenanceInExecution());
+    return !this.isphotoStageCreated() && this.isMaintenanceInExecution();
+  }
+
+  isMaintenanceInExecution(): boolean {
+    const stage = this.stages?.find(s => s);
+    return stage?.maintenance?.status ?? true;
+  }
+
+  isphotoStageCreated(): boolean {
+    const stagePhoto = this.stages?.find(stage => {
+      const type: any = stage.type ?? StageType.TEXT;
+      return type === 'PHOTO';
+    })
+
+    return stagePhoto !== undefined;
   }
 
   trackId(index: number, item: IStage): number {

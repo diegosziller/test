@@ -26,12 +26,12 @@ export class StageUpdateComponent implements OnInit {
   });
 
   constructor(
-    protected dataUtils: DataUtils,
-    protected stageService: StageService,
-    protected elementRef: ElementRef,
-    protected activatedRoute: ActivatedRoute,
-    protected sanitizer: DomSanitizer,
-    protected fb: FormBuilder
+    private stageService: StageService,
+    private dataUtils: DataUtils,
+    private elementRef: ElementRef,
+    private activatedRoute: ActivatedRoute,
+    private sanitizer: DomSanitizer,
+    private fb: FormBuilder
   ) {}
   ngOnInit(): void {
     combineLatest([this.activatedRoute.params]).subscribe(([params]) => {

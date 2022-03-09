@@ -4,7 +4,7 @@
   
       <div class="d-flex justify-content-end">
         <button
-          *ngIf="!canFinalizeMaintenance()"
+          *ngIf="canExecuteStage()"
           id="create-stage"
           data-cy="entityCreateButton"
           class="btn btn-primary create-stage"
@@ -34,11 +34,11 @@
     <div class="table-responsive" id="entities" *ngIf="stages && stages.length > 0">
       <table class="table table-striped" aria-describedby="page-heading">
         <thead>
-          <tr appSort (sortChange)="loadPage()">
-            <th scope="col" appSortBy="description"><span>Descrição</span>&nbsp; <fa-icon icon="sort"></fa-icon></th>
-            <th scope="col" appSortBy="status"><span>Status</span>&nbsp; <fa-icon icon="sort"></fa-icon></th>
-            <th scope="col" appSortBy="createdAt"><span>Data de execução</span>&nbsp; <fa-icon icon="sort"></fa-icon></th>
-            <th scope="col" appSortBy="createdAt"><span>Valor</span>&nbsp; <fa-icon icon="sort"></fa-icon></th>
+          <tr>
+            <th scope="col"><span>Descrição</span></th>
+            <th scope="col"><span>Status</span></th>
+            <th scope="col"><span>Data de execução</span></th>
+            <th scope="col"><span>Valor</span></th>
           </tr>
         </thead>
         <tbody>
